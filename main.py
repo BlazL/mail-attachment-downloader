@@ -10,6 +10,8 @@ import os
 import threading
 import gettext
 
+gettext.install("messages")
+
 KEY_FILE = 'key.key'
 
 def generate_key():
@@ -356,7 +358,7 @@ status_label = tk.Label(root, text="", anchor="center")
 status_label.grid(row=5, columnspan=2, pady=10)
 
 app_version = "v1.0"
-app_author = "Blaž Lapanja (blaz.lapanja@gmail.com)"
+app_author = "BlazL"
 
 app_info_label = tk.Label(root, text=f"Version: {app_version} | Author: {app_author}")
 app_info_label.grid(row=6, columnspan=2, pady=10)
