@@ -1,6 +1,8 @@
 # Email Attachment Downloader
 
-![Screenshot](https://raw.githubusercontent.com/BlazL/mail-attachment-downloader/main/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/BlazL/mail-attachment-downloader/main/screenshot.png)![Screenshot](https://raw.githubusercontent.com/BlazL/mail-attachment-downloader/main/screenshot.png)
+
+![Screenshot](https://raw.githubusercontent.com/BlazL/mail-attachment-downloader/main/screenshot2.png)![Screenshot](https://raw.githubusercontent.com/BlazL/mail-attachment-downloader/main/screenshot2.png)
 
 This is a Python application built with Tkinter that allows users to download email attachments from their email accounts.
 
