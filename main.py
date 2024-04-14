@@ -330,7 +330,7 @@ root['pady'] = 5
 settings_button = tk.Button(root, text=_("Settings"), command=open_settings_window)
 settings_button.grid(row=0, column=1, sticky="ne", pady=20)
 
-file_types_label = tk.Label(root, text=_("File Type to Download (comma-separated):"))
+file_types_label = tk.Label(root, text=_("File type to download (comma-separated):"))
 file_types_label.grid(row=1, column=0, sticky="w")
 file_types_entry = tk.Entry(root)
 file_types_entry.insert(0, ",".join(settings.get("file_types", [])))
