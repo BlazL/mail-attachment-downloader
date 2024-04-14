@@ -10,9 +10,6 @@ import os
 import threading
 import gettext
 
-# Initialize the translation system
-gettext.install("messages")
-
 KEY_FILE = 'key.key'
 
 def generate_key():
