@@ -11,7 +11,6 @@ This is a Python application built with Tkinter that allows users to download em
 
 - Python 3.x
 - Tkinter
-- cryptography
 - sv_ttk (custom theme for ttk widgets)
 
 ## Installation
