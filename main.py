@@ -8,118 +8,105 @@ import email
 import os
 import sv_ttk
 
-from cryptography.fernet import Fernet
+# Define file paths
+SETTINGS_FILE = "settings.json"
 
-KEY_FILE = "key.key"
+def save_settings(settings):
+    with open(SETTINGS_FILE, "w") as f:
+        json.dump(settings, f, indent=4)
 
-
-def generate_key():
-    if not os.path.exists(KEY_FILE):
-        key = Fernet.generate_key()
-        with open(KEY_FILE, "wb") as key_file:
-            key_file.write(key)
-
-
-def load_key():
-    with open(KEY_FILE, "rb") as key_file:
-        return key_file.read()
-
-
-generate_key()
-key = load_key()
-cipher_suite = Fernet(key)
-
-
-def encrypt_settings(settings):
-    encrypted_settings = cipher_suite.encrypt(json.dumps(settings).encode())
-    with open("settings.json", "wb") as f:
-        f.write(encrypted_settings)
-
-
-def decrypt_settings():
-    try:
-        with open("settings.json", "rb") as f:
-            encrypted_settings = f.read()
-        decrypted_settings = cipher_suite.decrypt(encrypted_settings).decode()
-        return json.loads(decrypted_settings)
-    except FileNotFoundError:
+def load_settings():
+    if os.path.exists(SETTINGS_FILE):
+        with open(SETTINGS_FILE, "r") as f:
+            return json.load(f)
+    else:
         return {}
 
+# Load settings
+settings = load_settings()
 
-if not os.path.exists("settings.json"):
+# If settings are empty, save the initial settings
+if not settings:
     settings = {}  # Initialize empty settings
-    encrypt_settings(settings)
+    save_settings(settings)
 
-settings = decrypt_settings()
-
-
+# GUI-related code
 class CustomDialog(tk.Toplevel):
     def __init__(self, parent, title, message):
         super().__init__(parent)
         self.title(title)
-
         label = tk.Label(self, text=message)
         label.pack(padx=20, pady=10)
-
         ok_button = tk.Button(self, text="OK", command=self.destroy)
         ok_button.pack(pady=5)
-
 
 class SettingsWindow(tk.Toplevel):
     def __init__(self, parent, settings):
         super().__init__(parent)
         self.title("Settings")
-
+        self.geometry("800x600")
         self["padx"] = 10
-        self["pady"] = 5
+        self["pady"] = 10
 
         self.settings = settings
-
         self.folder_destinations = {}
 
-        self.imap_server_label = tk.Label(self, text="IMAP Server:")
+        self.imap_server_label = tk.Label(self, text="IMAP strežnik:")
         self.imap_server_label.grid(row=0, column=0, sticky="w")
         self.imap_server_entry = tk.Entry(self)
-        self.imap_server_entry.grid(row=0, column=1)
+        self.imap_server_entry.grid(row=0, column=1, sticky="ew")
 
-        self.email_label = tk.Label(self, text="Email Address:")
+        self.email_label = tk.Label(self, text="Email naslov:")
         self.email_label.grid(row=1, column=0, sticky="w")
         self.email_entry = tk.Entry(self)
-        self.email_entry.grid(row=1, column=1)
+        self.email_entry.grid(row=1, column=1, sticky="ew")
 
-        self.password_label = tk.Label(self, text="Password:")
+        self.password_label = tk.Label(self, text="Geslo:")
         self.password_label.grid(row=2, column=0, sticky="w")
         self.password_entry = tk.Entry(self, show="*")
-        self.password_entry.grid(row=2, column=1)
+        self.password_entry.grid(row=2, column=1, sticky="ew")
 
-        self.connect_button = tk.Button(
-            self, text="Connect", command=self.connect_to_imap
-        )
-        self.connect_button.grid(row=3, columnspan=2, pady=10)
+        self.connect_button = tk.Button(self, text="Poveži", command=self.connect_to_imap)
+        self.connect_button.grid(row=3, column=0, columnspan=2, pady=10)
 
-        label1 = tk.Label(self, text="IMAP Folder", anchor="center")
-        label1.grid(row=4, column=0, sticky="w")
+        label1 = tk.Label(self, text="IMAP mapa", anchor="center")
+        label1.grid(row=4, column=0, sticky="ew")
 
-        label2 = tk.Label(self, text="Destination Folder", anchor="center")
-        label2.grid(row=4, column=1, sticky="w")
-        label2 = tk.Label(self, text="Selected", anchor="center")
-        label2.grid(row=4, column=2, sticky="w")
+        label2 = tk.Label(self, text="Ciljna mapa", anchor="center")
+        label2.grid(row=4, column=1, sticky="ew")
 
-        separator = ttk.Separator(
-            self, orient="horizontal", style="black.Horizontal.TSeparator"
-        )
+        label3 = tk.Label(self, text="Izbrana mapa", anchor="center")
+        label3.grid(row=4, column=2, sticky="ew")
+
+        separator = ttk.Separator(self, orient="horizontal", style="black.Horizontal.TSeparator")
         separator.grid(row=5, columnspan=3, sticky="ew", pady=5)
 
-        self.settings_frame = tk.Frame(self)
-        self.settings_frame.grid(row=6, columnspan=2, sticky="nsew")
+        self.canvas = tk.Canvas(self, borderwidth=0)
+        self.scrollbar = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        self.save_button = tk.Button(self, text="Save", command=self.save_settings)
+        self.scrollable_frame = tk.Frame(self.canvas)
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        )
+
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.grid(row=6, column=0, columnspan=3, sticky="nsew")
+        self.scrollbar.grid(row=6, column=3, sticky="ns")
+
+        self.grid_rowconfigure(6, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+
+        self.save_button = tk.Button(self, text="Shrani", command=self.save_settings)
         self.save_button.grid(row=7, columnspan=2)
 
+        # Load settings from the stored settings
         self.imap_server_entry.insert(0, settings.get("imap_server", ""))
         self.email_entry.insert(0, settings.get("email_address", ""))
         self.password_entry.insert(0, settings.get("password", ""))
 
+        # Populate the folder destinations
         self.populate_folder_destinations()
 
     def connect_to_imap(self):
@@ -133,24 +120,22 @@ class SettingsWindow(tk.Toplevel):
             _, folders = mail.list()
             for idx, folder in enumerate(folders):
                 folder_name = folder.decode().split(' "/" ')[1]
-                label = tk.Label(self.settings_frame, text=folder_name)
+                label = tk.Label(self.scrollable_frame, text=folder_name)
                 label.grid(row=idx, column=0, sticky="w")
 
-                entry = tk.Entry(self.settings_frame)
+                entry = tk.Entry(self.scrollable_frame)
                 entry.grid(row=idx, column=1)
 
                 browse_button = tk.Button(
-                    self.settings_frame,
-                    text="Browse",
-                    command=lambda folder=folder_name, entry=entry: self.add_destination(
-                        folder, entry
-                    ),
+                    self.scrollable_frame,
+                    text="Prebrskaj",
+                    command=lambda folder=folder_name, entry=entry: self.add_destination(folder, entry),
                 )
                 browse_button.grid(row=idx, column=2)
 
-                checkbox_var = tk.BooleanVar()  # Create BooleanVar for checkbox
-                checkbox = tk.Checkbutton(self.settings_frame, variable=checkbox_var)
-                checkbox.grid(row=idx, column=3)
+                checkbox_var = tk.BooleanVar()
+                checkbox = tk.Checkbutton(self.scrollable_frame, variable=checkbox_var)
+                checkbox.grid(row=idx, column=3, sticky="ew")
 
                 self.folder_destinations[folder_name] = {
                     "entry": entry,
@@ -159,15 +144,15 @@ class SettingsWindow(tk.Toplevel):
 
             CustomDialog(
                 self,
-                "Successful Connection",
-                "Connection to the server was successful!",
+                "Uspešno povezano",
+                "Povezava s serverjem je uspešno vzpostavljena!",
             )
             mail.logout()
         except Exception as e:
             CustomDialog(
                 self,
-                "Connection Error",
-                f"Error connecting to the server: {str(e)}",
+                "Napaka pri povezavi",
+                f"Prišlo je do napake pri povezovanju na strežnik: {str(e)}",
             )
 
     def add_destination(self, folder, entry):
@@ -180,31 +165,27 @@ class SettingsWindow(tk.Toplevel):
             self.folder_destinations[folder]["selected"] = checkbox_var
 
     def populate_folder_destinations(self):
-        for widget in self.settings_frame.winfo_children():
+        for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
 
         folder_destinations = self.settings.get("folder_destinations", {})
         for idx, (folder, destination_data) in enumerate(folder_destinations.items()):
-            label = tk.Label(self.settings_frame, text=folder)
+            label = tk.Label(self.scrollable_frame, text=folder, anchor="center")
             label.grid(row=idx, column=0, sticky="w")
 
-            entry = tk.Entry(self.settings_frame)
-            entry.insert(
-                0, destination_data.get("destination", "")
-            )  # Retrieve the destination path
+            entry = tk.Entry(self.scrollable_frame)
+            entry.insert(0, destination_data.get("destination", ""))
             entry.grid(row=idx, column=1)
 
             browse_button = tk.Button(
-                self.settings_frame,
-                text="Browse",
+                self.scrollable_frame,
+                text="Prebrskaj",
                 command=lambda f=folder, e=entry: self.add_destination(f, e),
             )
             browse_button.grid(row=idx, column=2)
 
-            checkbox_var = tk.BooleanVar(
-                value=destination_data.get("selected", False)
-            )  # Retrieve the selected value
-            checkbox = tk.Checkbutton(self.settings_frame, variable=checkbox_var)
+            checkbox_var = tk.BooleanVar(value=destination_data.get("selected", False))
+            checkbox = tk.Checkbutton(self.scrollable_frame, variable=checkbox_var)
             checkbox.grid(row=idx, column=3)
 
             self.folder_destinations[folder] = {
@@ -228,30 +209,19 @@ class SettingsWindow(tk.Toplevel):
                 "selected": selected,
             }
         try:
-            encrypted_settings = cipher_suite.encrypt(json.dumps(settings).encode())
-            with open("settings.json", "wb") as f:
-                f.write(encrypted_settings)
-            CustomDialog(root, "Saved", "Settings have been successfully saved!")
+            save_settings(settings)
+            CustomDialog(root, "Shranjeno", "Nastavitve so bile uspešno shranjene!")
         except Exception as e:
-            CustomDialog(root, "Error", f"Error saving settings: {str(e)}")
-
+            CustomDialog(root, "Napaka", f"Prišlo je do napake: {str(e)}")
 
 def fetch_emails():
     global fetching_should_continue
     fetching_should_continue = True
-    try:
-        with open("settings.json", "rb") as f:
-            encrypted_settings = f.read()
-            decrypted_settings = cipher_suite.decrypt(encrypted_settings).decode()
-            settings = json.loads(decrypted_settings)
-    except FileNotFoundError:
-        CustomDialog(root, "Error", "Cannot find settings.json file")
-        return
+    settings = load_settings()
 
     imap_server = settings.get("imap_server")
     email_address = settings.get("email_address")
     password = settings.get("password")
-
     folder_destinations = settings.get("folder_destinations", {})
 
     file_types_entry_value = file_types_entry.get()
@@ -296,9 +266,7 @@ def fetch_emails():
                                         filename.lower().endswith(file_type.lower())
                                         for file_type in file_types
                                     ):
-                                        destination_folder = folder_data.get(
-                                            "destination"
-                                        )
+                                        destination_folder = folder_data.get("destination")
                                         if destination_folder:
                                             if not os.path.exists(destination_folder):
                                                 os.makedirs(destination_folder)
@@ -312,12 +280,12 @@ def fetch_emails():
                         root.update_idletasks()
 
         CustomDialog(
-            root, "Finished", "Attachment download completed successfully!"
+            root, "Končano", "Priponke so bile uspešno prenešene!"
         )
         start_button.grid()
         stop_button.grid_remove()
     except Exception as e:
-        CustomDialog(root, "Error", f"Error downloading attachments: {str(e)}")
+        CustomDialog(root, "Napaka", f"Prišlo je do napake pri prenosu priponk: {str(e)}")
     finally:
         if mail:
             mail.close()
@@ -325,17 +293,14 @@ def fetch_emails():
         fetching_should_continue = False
         progress_bar["value"] = 0
 
-
 def start_fetching():
     threading.Thread(target=fetch_emails).start()
     toggle_buttons()
-
 
 def stop_fetching():
     global fetching_should_continue
     fetching_should_continue = False
     toggle_buttons()
-
 
 def toggle_buttons():
     if fetching_should_continue:
@@ -345,41 +310,37 @@ def toggle_buttons():
         stop_button.grid_remove()
         start_button.grid()
 
-
-def save_settings_to_file(settings):
+def save_settings_to_file(updated_settings):
     try:
-        encrypted_settings = cipher_suite.encrypt(json.dumps(settings).encode())
-        with open("settings.json", "wb") as f:
-            f.write(encrypted_settings)
-        CustomDialog(root, "Saved", "Settings have been successfully saved!")
-    except Exception as e:
-        CustomDialog(root, "Error", f"Error saving settings: {str(e)}")
+        # Load the current settings
+        current_settings = load_settings()
 
+        # Update only the specific setting passed in updated_settings
+        current_settings.update(updated_settings)
+
+        # Save the updated settings
+        save_settings(current_settings)
+        CustomDialog(root, "Shranjeno", "Nastavitve so bile uspešno shranjene!")
+    except Exception as e:
+        CustomDialog(root, "Napaka", f"Prišlo je do napake pri shranjenvanju nastavitev: {str(e)}")
 
 def update_file_types():
     new_file_types = file_types_entry.get()
-    settings["file_types"] = new_file_types.split(",") if new_file_types else []
-    save_settings_to_file(settings)
-
+    # Only update the file_types setting, preserving the rest
+    save_settings_to_file({"file_types": new_file_types.split(",") if new_file_types else []})
 
 def open_settings_window():
-    try:
-        with open("settings.json", "rb") as f:
-            encrypted_settings = f.read()
-        decrypted_settings = cipher_suite.decrypt(encrypted_settings).decode()
-        settings = json.loads(decrypted_settings)
-    except FileNotFoundError:
-        settings = {}
+    settings = load_settings()  # Reload settings to ensure the latest values are shown
     settings_window = SettingsWindow(root, settings)
 
-
+# Initialize the main application window
 root = tk.Tk()
-root.title("Email Attachment Downloader")
+root.title("Prenos email priponk")
 
 fetching_should_continue = True
 
 fetch_button_text = tk.StringVar()
-fetch_button_text.set("Fetch Emails")
+fetch_button_text.set("Prenesi")
 
 style = ttk.Style()
 style.theme_use("default")
@@ -388,29 +349,31 @@ style.configure("Custom.Horizontal.TProgressbar", thickness=50)
 root["padx"] = 10
 root["pady"] = 5
 
-settings_button = tk.Button(root, text="Settings", command=open_settings_window)
+# Place the settings button on the grid
+settings_button = tk.Button(root, text="Nastavitve", command=open_settings_window)
 settings_button.grid(row=0, column=1, sticky="ne", pady=20)
 
-file_types_label = tk.Label(root, text="File type to download (comma-separated):")
+# Initialize file types entry field
+file_types_label = tk.Label(root, text="Tip datoteke za prenos (ločeno z vejico)")
 file_types_label.grid(row=1, column=0, sticky="w")
 file_types_entry = tk.Entry(root)
 file_types_entry.insert(0, ",".join(settings.get("file_types", [])))
 file_types_entry.grid(row=1, column=1)
 
-update_button = tk.Button(root, text="Save", command=update_file_types)
+update_button = tk.Button(root, text="Shrani", command=update_file_types)
 update_button.grid(row=1, column=2)
 
 file_types_description = tk.Label(
     root,
-    text="Leave empty to download all files in email attachments.",
+    text="Pustite prazno, če želite prenesti vse datoteke v priponkah e-pošte.",
     font=("Helvetica", 13, "italic"),
 )
 file_types_description.grid(row=2, column=0, columnspan=2, sticky="w")
 
-start_button = tk.Button(root, text="Download Attachments", command=start_fetching)
+start_button = tk.Button(root, text="Prenesi priponke", command=start_fetching)
 start_button.grid(row=3, column=0, columnspan=2, pady=20)
 
-stop_button = tk.Button(root, text="Stop Download", command=stop_fetching)
+stop_button = tk.Button(root, text="Prekliči prenos", command=stop_fetching)
 stop_button.grid(row=3, column=0, columnspan=2, pady=10)
 stop_button.grid_remove()
 
@@ -426,12 +389,13 @@ progress_bar.grid(row=4, columnspan=2, pady=30)
 status_label = tk.Label(root, text="", anchor="center")
 status_label.grid(row=5, columnspan=2, pady=10)
 
-APP_VERSION = "v1.0"
+APP_VERSION = "v1.1"
 APP_AUTHOR = "BlazL"
 
-app_info_label = tk.Label(root, text=f"Version: {APP_VERSION} | Author: {APP_AUTHOR}")
+app_info_label = tk.Label(root, text=f"Verzija: {APP_VERSION} | Avtor: {APP_AUTHOR}")
 app_info_label.grid(row=6, columnspan=2, pady=10)
 
 sv_ttk.set_theme("light")
 
+# Start the Tkinter main loop
 root.mainloop()

@@ -1,0 +1,435 @@
+{
+    "imap_server": "imaps.rkc.si",
+    "email_address": "racuni.kp@zupnija.si",
+    "password": "Tiur2VET!",
+    "folder_destinations": {
+        "\"INBOX/COL\"": {
+            "destination": "/Users/bl/Downloads/COL",
+            "selected": true
+        },
+        "\"INBOX/BERTOKI\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/MAREZIGE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SENOZECE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SEMPETER\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SKOFIJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SMARJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/DIVACA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/LOKAVEC\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KORTE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PODKRAJ\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"Drafts\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/ILIRSKA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VREME\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PODGRAD\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/LUCIJA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SEZANA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VRHPOLJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SLAVINA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/GRGAR\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOMEN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SMIHEL\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BOVEC\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VOLCE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KROMBERK\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SOLKAN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/ANKARAN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/OTLICA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SENTVISKA GORA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VOGRSKO\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PODGRAJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"Sent\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOJSKO\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/STRUNJAN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/OPATJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOPER - SV. MARKO\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SEMPAS\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/CRNI\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"Spam\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BILJANA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BATUJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SPODNJA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SV. ANTON\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/MINORITSKI SAMOSTAN PIRAN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/CRNICE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/MATENJA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PLANINA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"Trash\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PODNANOS\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KNEZAK\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/DEKANI\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/MOST\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/GODOVIC\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PIRAN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/DORNBERK\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/TOMAJ\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VIPAVSKI\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/OSEK\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/DREZNICA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KAMNJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PODBRDO\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BUDANJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/HRENOVICE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KRKAVCE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/STURJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/RENCE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/MIREN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BILJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOPER\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KANAL\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/MSV\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VIPAVA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/TOLMIN\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BRANIK\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/IDRIJA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PREDLOKA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/GOCE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/TRNJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOSTANJEVICA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/HRUSICA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/NOVA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/STUDENO\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/JELSANE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/AJDOVSCINA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/LOKEV\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/HRPELJE-KOZINA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/BUKOVICA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PIVKA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/DESKLE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/ZAGORJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOBARID\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/STANJEL\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PORTOROZ\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/CERKNO\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/LEDINE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/DUTOVLJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SECOVLJE\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/KOSANA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/LEVPA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/IZOLA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/PRVACINA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SLOVRENC\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/SOCERGA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/VRTOJBA\"": {
+            "destination": "",
+            "selected": false
+        },
+        "\"INBOX/POSTOJNA\"": {
+            "destination": "",
+            "selected": false
+        }
+    },
+    "file_types": [
+        "pdf",
+        " xml"
+    ]
+}
